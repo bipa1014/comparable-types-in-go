@@ -1,7 +1,6 @@
 # comparable-types-in-go
-comparable types in go
 
-## was ist der comparable type constraint
+## Was ist der `comparable` type constraint
 `comparable` hat zwei Dimensionen:
 1.  umfasst typen die `comparable` implementieren und dadurch vergleichbar sind,
 2.  umfasst typen die `comparable` nicht implementieren und trotzdem vergleichbar sein können.
@@ -22,6 +21,8 @@ Folgende Typen sind nicht immer vergleichbar, nur wenn die zugehöhrige Bedingun
 
 ### Was ist nicht `comparable`?
 `maps`, `slices` und Funktionen sind nie vergleichbar im Sinn von Go `comparable`, auch wenn die zugrunde liegenden Typen `comparable` sind. 
+
+## 
 
 ## was kann man mit comparable erreichen?
 

@@ -1,7 +1,7 @@
 # Comparable Type Constraint in Go
 
 ## Was ist der `comparable` type constraint
->	A type is comparable if values of that type may be compared using the == and != operators.
+>	[The equality operators == and != apply to operands of comparable types.](https://go.dev/ref/spec#Comparison_operators)
 
 `comparable` hat zwei Dimensionen:
 1.  umfasst typen die `comparable` implementieren und dadurch vergleichbar sind,

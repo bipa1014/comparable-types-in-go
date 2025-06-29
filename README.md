@@ -65,17 +65,10 @@ public class Demo {
     }
 }
 ~~~
+Ähnlich wie bei eigenen Klassen in C++ kann man bei seinen Klassen in Java die von Object geerbte Methode `equals()` überschreiben um den gewünschten Vergleich zur Auswahl zu haben.
 
-## was kann man mit comparable erreichen?
+## Kann man nicht `comparable` in Go umgehen?
+Für den Schlüssel in einer Map in Go reicht constraint `any` nicht aus weil explizit beim Zugriff der Operator `==` verwendet wird, und in Go kann man denn `==` Operator nicht überschreiben, deshalb ist es nicht möglich Maps, slices oder funktionen, oder structs mit maps, slices oder funktionen als Attributen, Arrays mit maps, slices oder funktionen als Elemente oder Typ Parameter welche maps, slices oder funktionen enthalten als Schlüssel zu benutzen. Sollte dies trotzdem versucht und geschrieben werden kann der Code zwar kompiliert werden, aber wird ein nicht `comparable` Typ als Schlüssel festgestellt kommt es zur Laufzeit zum panic und das Programm kann abstürzen wenn dieser nicht aufgefangen wird.
 
-vergleich der werte, sortierung etc..
-
-## wie hat sich comparable in go über die zeit verändert
-
-comparable als interface -> 1.18
-
-implementierungs kriterium aufgeweicht um mehr comparable typen zu ermöglichen -> 1.20
-
-## macht go das gut (im vergeich zu anderen sprachen)?
-
-go musste spezial lösung gehen und extra für vergleich ausnahme des interface systems machen weil sonst nicht alle typen vergleichbar währen, aber: diese lösung kann zu abstürzen zur runtime führen
+### Eigene Methode schreiben
+Natürlich kann man auch eigene Methoden sich ausdenken um maps und slices zu vergleichen, wenn eine eigene komplexe Datenstruktur verglichen werden soll kann es sogar am performantesten sein eine Methode zu schreiben welche auf die Daten angepasst ist, aber es gibt auch 

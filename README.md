@@ -68,7 +68,32 @@ public class Demo {
 Ähnlich wie bei eigenen Klassen in C++ kann man bei seinen Klassen in Java die von Object geerbte Methode `equals()` überschreiben um den gewünschten Vergleich zur Auswahl zu haben.
 
 ## Kann man nicht `comparable` in Go umgehen?
-Für den Schlüssel in einer Map in Go reicht constraint `any` nicht aus weil explizit beim Zugriff der Operator `==` verwendet wird, und in Go kann man denn `==` Operator nicht überschreiben, deshalb ist es nicht möglich Maps, slices oder funktionen, oder structs mit maps, slices oder funktionen als Attributen, Arrays mit maps, slices oder funktionen als Elemente oder Typ Parameter welche maps, slices oder funktionen enthalten als Schlüssel zu benutzen. Sollte dies trotzdem versucht und geschrieben werden kann der Code zwar kompiliert werden, aber wird ein nicht `comparable` Typ als Schlüssel festgestellt kommt es zur Laufzeit zum panic und das Programm kann abstürzen wenn dieser nicht aufgefangen wird.
+Für den Schlüssel in einer Map in Go reicht constraint `any` nicht aus weil explizit beim Zugriff der Operator `==` verwendet wird, und in Go kann man denn `==` Operator nicht überschreiben, deshalb ist es nie möglich Maps, slices oder funktionen, oder structs mit maps, slices oder funktionen als Attributen, Arrays mit maps, slices oder funktionen als Elemente oder Typ Parameter welche maps, slices oder funktionen enthalten als Schlüssel zu benutzen. Sollte dies trotzdem versucht und geschrieben werden kann der Code zwar kompiliert werden, aber wird ein nicht `comparable` Typ als Schlüssel festgestellt kommt es zur Laufzeit zum panic und das Programm kann abstürzen wenn dieser nicht aufgefangen wird.
 
 ### Eigene Methode schreiben
-Natürlich kann man auch eigene Methoden sich ausdenken um maps und slices zu vergleichen, wenn eine eigene komplexe Datenstruktur verglichen werden soll kann es sogar am performantesten sein eine Methode zu schreiben welche auf die Daten angepasst ist, aber es gibt auch 
+Natürlich kann man auch eigene Methoden sich ausdenken um maps und slices zu vergleichen, wenn eine eigene komplexe Datenstruktur verglichen werden soll kann es sogar am performantesten sein eine Methode zu schreiben welche auf die Daten angepasst ist, aber es gibt auch Methoden bzw. Funktionen aus Bibliotheken welcher man sich bedienen kann:
+-    `map` und `slice` bieten eine eigene `equal`-Methode an,
+~~~
+import (
+	"golang.org/x/exp/maps"
+	"golang.org/x/exp/slices"
+)
+
+func main() {
+	map1 := map[string]string{
+		"Anna": "anna@gmail.com",
+		"Bob":  "bob@gmail.com",
+	}
+	map2 := map[string]string{
+		"Anna": "anna@gmail.com",
+		"Bob":  "bob2@gmail.com",
+	}
+	maps.Equal(map1, map2)
+
+	slice1 := []int{1, 2, 3}
+	slice2 := []int{1, 2, 3}
+	slices.Equal(slice1, slice2)
+}
+~~~
+-    das `cmp`-Package bieted die Funktion cmp.Equal welche interface{} annimmt und anhand des Inhalts vergleicht, dabei müssen allerdings einpaar Einschränkungen beachtet werden, so müssen z.B. allse Felder eines `structs` exportiert werden,
+-    

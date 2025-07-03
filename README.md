@@ -102,8 +102,12 @@ func main() {
 	slices.Equal(slice1, slice2)
 }
 ~~~
--    das `cmp`-Package bietet die Funktion [cmp.Equal](https://pkg.go.dev/github.com/google/go-cmp/cmp#Equal) welche interface{} annimmt und anhand des Inhalts vergleicht, dabei müssen allerdings ein paar Einschränkungen beachtet werden, so müssen z.B. alle Felder eines `structs` exportiert werden aber auch mit ein paar fortschrittlichen Anpassungs Optionen,
+-    das `cmp`-Package bietet die Funktion [cmp.Equal](https://pkg.go.dev/github.com/google/go-cmp/cmp#Equal) welche interface{} annimmt und anhand des Inhalts vergleicht, dabei müssen allerdings ein paar Einschränkungen beachtet werden, so müssen z.B. alle Felder eines `structs` exportiert werden aber man gewinnt auch mit ein paar fortschrittliche Anpassungs Optionen,
 -    aus dem `reflect`-Package gibt es die [reflect.DeepEqual](https://pkg.go.dev/reflect#DeepEqual)-Methode welche bei den meisten Daten korrekte Ergebnisse liefert, aber auch inkonsistent sein kann und unerwartete Ergebnisse erzeugt.
 
 ## Bewertung
-TODO
+Grundsätzlich ist es gut, dass man auch eigene `struct`s (mit Einschränkung) vergleichen kann ohne dabei eine eigene Methode schreiben zu müssen. Und solange man keine ausgefallenen oder komplexe Datenstrukturen hat kann man sich auch auf Vergleichsfunktionen aus Hilfsbibliotheken stützen.
+
+Die einzige wirkliche Einschränkung ist die der `map`-Schlüssel. Auch wenn hier mit einem `string` oder Hash der das Objekt representieren soll oder `pointer` gearbeitet werden kann, ist dies nicht immer möglich oder gewünscht. 
+
+Andererseits beugt Go so einige Bugs vor die entstehen können wenn nicht-vergleichbare Typen als Key erlaubt wären, dies führt in anderen Sprachen manchmal zu Bugs die nur schwer erkennbar sind. Go geht einen Mittelweg wenn es zur Laufzeit-panic kommt, einige Sprachen sagen deutlich dass manche Operationen zu undefiniertem Verhalten führen und geben dem Programmierer die Verantwortung das zu beachten, aber andere Sprachen lassen erst gar nicht zu, dass kritischer Code kompiliert wird. Go verhindert undefiniertes Verhalten in diesem Bereich, aber keine Abstürze. Ich finde man könnte hier konsequenter sein und versuchen das früher zu verhindern sodass dem Benutzer das Programm nicht um die Ohren fliegt.
